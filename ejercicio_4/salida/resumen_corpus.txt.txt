@@ -1,0 +1,15 @@
+================ RESUMEN (Ejercicio 4) ================
+Archivo              : ../ejercicio_3/archivos/corpus.txt
+   tamaño             : 36147 bytes (0.03 MiB)
+
+   -- Alfabeto de bytes (256 símbolos, igual que la Entropía del Ejercicio 3) --
+   símbolos distintos : 90/256
+   entropía H         : 4.4433 bits/símbolo   (máximo teórico 8.0000)
+   índice de coincidencia IC : 0.064745   (mínimo teórico si fuera uniforme: 1/256 = 0.003906)
+   bytes más frecuentes: 0x20: 14.60%, 0x65: 10.09%, 0x61: 8.56%, 0x6F: 6.58%, 0x6E: 5.85%
+
+   -- Alfabeto de 27 letras españolas (a-z, ñ), decodificado como UTF-8 --
+   letras encontradas : 28736/36147 bytes (79.50 % del archivo)
+   entropía H         : 4.0290 bits/símbolo   (máximo teórico 4.7549)
+   índice de coincidencia IC : 0.073137   (referencia: ~0.074 español real, ~0.038 alfabeto aleatorio de 27 letras)
+=======================================================

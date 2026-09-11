@@ -1,0 +1,13 @@
+Colocar en esta carpeta los dos archivos de imagen del Ejercicio 2:
+  - un archivo .bmp (sin compresión)
+  - un archivo .jpg (comprimido)
+Ambos deben contener exactamente la misma fotografía (mismo contenido visual,
+mismas dimensiones).
+
+Luego, desde la carpeta ejercicio_2:
+
+    python3 ejercicio_2.py --bmp imagenes/<nombre>.bmp --jpg imagenes/<nombre>.jpg
+
+o de forma interactiva (el programa pide las rutas):
+
+    python3 ejercicio_2.py

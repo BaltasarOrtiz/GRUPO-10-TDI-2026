@@ -1,0 +1,22 @@
+================ RESUMEN (Ejercicio 1) ================
+WAV : audio/sample-15s.wav
+   tamaño            : 3382316 bytes (3.23 MiB)
+   formato           : PCM 16 bits/muestra, 2 canal(es), 44100 Hz
+   duración          : 00:19.174
+   símbolos distintos: 256/256
+   entropía empírica : 7.3228 bits/byte   (máximo teórico 8.0000)
+   redundancia       : 8.47 %
+MP3 : audio/sample-15s.mp3
+   tamaño            : 381645 bytes (0.36 MiB)
+   formato           : MPEG-1 Layer III, 64 kbps, 44100 Hz, Estéreo
+   símbolos distintos: 256/256
+   entropía empírica : 7.9124 bits/byte   (máximo teórico 8.0000)
+   redundancia       : 1.10 %
+COMPARACIÓN
+   Δentropía (MP3 − WAV)      : +0.5896 bits/byte
+   factor de tamaño (WAV/MP3) : 8.86x   (razón MP3/WAV = 0.1128)
+   bytes más frecuentes WAV   : 0x02: 2.45%, 0x03: 2.43%, 0x01: 2.31%, 0xFB: 2.29%, 0xFC: 2.21%
+   bytes más frecuentes MP3   : 0x00: 2.65%, 0xFF: 0.84%, 0x80: 0.80%, 0x20: 0.76%, 0x01: 0.73%
+=======================================================
+Salida guardada: /home/baltasar/documents/GitHub/GRUPO-10-TDI-2026/ejercicio_1/salida/histogramas.png
+                 /home/baltasar/documents/GitHub/GRUPO-10-TDI-2026/ejercicio_1/salida/resumen.txt

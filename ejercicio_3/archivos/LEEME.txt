@@ -1,0 +1,16 @@
+Este ejercicio no exige que el .txt y el comprimido tengan el mismo
+contenido (a diferencia de los ejercicios 1 y 2): el enunciado solo pide
+"un archivo de texto puro" y "un archivo fuertemente comprimido de tamaño
+similar". Por eso esta carpeta ya viene con un par listo para usar:
+
+  - corpus.txt      texto en español (sin comprimir)
+  - corpus.txt.zip  el mismo texto, comprimido con ZIP
+
+Para usar tus propios archivos (cualquier .txt y cualquier .zip/.rar/etc.,
+no hace falta que estén relacionados entre sí), corré:
+
+    python3 ejercicio_3.py --archivo archivos/<tu_archivo>
+
+o de forma interactiva (el programa pide la ruta):
+
+    python3 ejercicio_3.py

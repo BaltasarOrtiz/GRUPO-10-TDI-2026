@@ -1,0 +1,8 @@
+================ RESUMEN (Ejercicio 3) ================
+Archivo             : archivos/corpus.txt.zip
+   tamaño            : 12540 bytes (0.01 MiB)
+   símbolos distintos: 256/256
+   entropía empírica : 7.9795 bits/byte   (máximo teórico 8.0000)
+   redundancia       : 0.26 %
+   bytes más frecuentes: 0x00: 0.66%, 0x55: 0.60%, 0x5D: 0.57%, 0x73: 0.57%, 0x29: 0.55%
+=======================================================

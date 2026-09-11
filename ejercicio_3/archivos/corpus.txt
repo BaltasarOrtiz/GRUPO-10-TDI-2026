@@ -1,0 +1,508 @@
+Apuntes personales sobre Teoría de la Información
+====================================================
+
+Introducción
+
+Cuando alguien me pregunta qué estudia la Teoría de la Información, suelo responder
+con una idea simple: mide cuánta sorpresa trae un mensaje. No importa si ese mensaje
+viaja por un cable de cobre, por el aire en forma de ondas de radio, o si está escrito
+a mano en un papel; lo que la teoría busca cuantificar es la cantidad de incertidumbre
+que se resuelve al recibirlo. Claude Shannon, en 1948, propuso un marco matemático que
+todavía hoy sostiene buena parte de las telecomunicaciones, la compresión de archivos,
+la criptografía y hasta ciertas ramas de la biología computacional. Antes de Shannon,
+la ingeniería de comunicaciones era en gran medida un arte basado en la experiencia; su
+trabajo la convirtió en una disciplina con fundamentos matemáticos precisos.
+
+La pregunta central que se hace esta teoría no es "¿qué significa este mensaje?" sino
+"¿cuánta información contiene, en promedio, un mensaje de esta fuente?". Esa distinción
+resulta incómoda al principio, porque en el lenguaje cotidiano usamos la palabra
+información para hablar de significado, de contenido semántico. Shannon, en cambio, la
+usa en un sentido estadístico: la cantidad de información asociada a un evento depende
+únicamente de cuán probable era ese evento, no de lo que ese evento "signifique" para
+un humano. Un mensaje muy predecible aporta poca información nueva, aunque su contenido
+sea semánticamente importante; un mensaje muy improbable, en cambio, resulta muy
+informativo desde el punto de vista estadístico, incluso si carece de sentido para
+quien lo recibe.
+
+Mensaje, fuente y alfabeto
+
+Para formalizar esta idea conviene definir algunos elementos. Una fuente de información
+es un proceso que genera símbolos, uno tras otro, tomados de un conjunto finito llamado
+alfabeto. Ese alfabeto puede ser tan simple como los dos símbolos de un sistema binario,
+cero y uno, o tan complejo como las veintisiete letras del español (incluyendo la eñe),
+los doscientos cincuenta y seis valores posibles de un byte, o los miles de caracteres
+de un sistema de escritura como el japonés. Un mensaje, entonces, es una secuencia finita
+de símbolos extraídos de ese alfabeto según alguna distribución de probabilidad.
+
+La fuente más simple de analizar es la llamada fuente sin memoria, donde cada símbolo se
+genera de manera independiente de los anteriores, siguiendo siempre la misma distribución
+de probabilidad. Es una simplificación útil, aunque poco realista para el lenguaje
+natural: en español, por ejemplo, la probabilidad de que aparezca una "u" después de una
+"q" es altísima, cercana a uno, mientras que la probabilidad de una "u" después de
+cualquier otra letra es mucho más baja. Esa dependencia entre símbolos consecutivos se
+llama memoria de la fuente, y modelarla correctamente requiere herramientas más
+sofisticadas, como las cadenas de Markov, que condicionan la probabilidad de cada símbolo
+al símbolo o símbolos anteriores.
+
+Cuando se ignora esa memoria y se trata cada símbolo como si fuera independiente de los
+demás, se dice que se está calculando una entropía de orden cero. Es una simplificación
+que subestima sistemáticamente cuánto se puede comprimir un texto real, porque no
+aprovecha las correlaciones entre símbolos consecutivos. Aun así, sigue siendo un punto
+de partida útil, y es exactamente lo que calcula un programa que cuenta frecuencias de
+bytes sin mirar el contexto en el que aparece cada uno.
+
+La cantidad de información de un evento
+
+Shannon definió la cantidad de información asociada a un evento de probabilidad p como
+el logaritmo en base dos del inverso de esa probabilidad: I = log2(1/p) = -log2(p). Esta
+fórmula tiene varias propiedades deseables. Primero, si un evento es seguro, es decir, si
+su probabilidad es uno, la información que aporta es cero: no hay sorpresa en algo que ya
+sabíamos que iba a ocurrir. Segundo, cuanto más improbable es un evento, mayor es la
+información que transporta; en el límite, un evento de probabilidad que tiende a cero
+aporta una cantidad de información que tiende a infinito. Tercero, y esta es quizás la
+propiedad más importante desde el punto de vista práctico, la información de eventos
+independientes se suma: si dos eventos son independientes entre sí, la información
+conjunta de que ambos ocurran es igual a la suma de las informaciones individuales. Esta
+propiedad de aditividad es la razón por la que se usa el logaritmo en la definición, ya
+que el logaritmo de un producto es la suma de los logaritmos.
+
+La elección de la base dos para el logaritmo no es arbitraria: define la unidad de medida
+como el bit, que corresponde a la información aportada por un evento con exactamente dos
+resultados igualmente probables, como el resultado de tirar una moneda equilibrada. Si en
+cambio se usara el logaritmo natural, la unidad resultante se llamaría nat; y si se usara
+logaritmo en base diez, se llamaría hartley o dit. En la práctica de la informática, casi
+siempre se trabaja en base dos, porque los sistemas digitales representan la información
+mediante dígitos binarios.
+
+Entropía de una fuente
+
+La entropía de una fuente es el valor esperado (el promedio ponderado por probabilidad)
+de la información de todos los símbolos posibles de su alfabeto. Si una fuente tiene un
+alfabeto de n símbolos, cada uno con probabilidad p(i), la entropía se calcula como:
+
+    H = - suma para i de 1 a n de [ p(i) * log2(p(i)) ]
+
+El resultado se expresa en bits por símbolo. Intuitivamente, la entropía mide cuánta
+incertidumbre promedio tiene la fuente antes de que se revele cada símbolo, o
+equivalentemente, cuánta información promedio aporta cada símbolo nuevo que la fuente
+emite. Una fuente muy predecible, donde casi siempre se repite el mismo símbolo, tiene
+una entropía baja, cercana a cero: ya sabemos casi con certeza qué va a salir, así que
+hay poco que aprender. Una fuente donde todos los símbolos son igualmente probables tiene
+la entropía máxima posible para ese alfabeto, que es el logaritmo en base dos de la
+cantidad de símbolos: H máximo = log2(n).
+
+Para un alfabeto de doscientos cincuenta y seis símbolos, como los valores posibles de un
+byte, ese máximo es log2(256) = 8 bits por símbolo. Ningún archivo puede tener, en
+promedio, más de ocho bits de entropía por byte si se mide con este modelo de orden cero,
+simplemente porque ocho bits ya alcanzan para distinguir los doscientos cincuenta y seis
+valores posibles con equiprobabilidad perfecta. Cuando la distribución de bytes de un
+archivo está muy sesgada, con algunos valores mucho más frecuentes que otros, la entropía
+cae por debajo de ese máximo, y esa caída es precisamente una medida de cuánta
+redundancia estadística contiene el archivo.
+
+Existe una convención matemática importante en esta fórmula: cuando la probabilidad de un
+símbolo es cero, el término p(i) * log2(p(i)) se define como cero, aunque el logaritmo de
+cero no está definido en sentido estricto. Esto se justifica tomando el límite de la
+función x * log2(x) cuando x tiende a cero por la derecha, que efectivamente tiende a
+cero. En la práctica, al implementar el cálculo, simplemente se descartan los símbolos
+que no aparecieron nunca en el mensaje, porque no contribuyen a la suma.
+
+Redundancia
+
+La redundancia de una fuente es una medida de cuánto se aleja su entropía real del máximo
+teórico que le correspondería a su alfabeto. Se suele expresar como una proporción:
+
+    R = 1 - H / H_max
+
+Si la entropía real coincide con el máximo, la redundancia es cero: la fuente ya está
+usando su alfabeto de la manera más eficiente posible, sin desperdiciar capacidad. Si la
+entropía real es mucho menor que el máximo, la redundancia se acerca a uno, es decir, al
+cien por ciento, lo que indica que hay mucho margen para representar los mismos mensajes
+con menos símbolos, sin perder información.
+
+El lenguaje natural es un ejemplo clásico de fuente muy redundante. En español, no todas
+las letras aparecen con la misma frecuencia: la letra "e" es, por lejos, la más común,
+seguida de cerca por la "a"; letras como la "k", la "w" o la "x" aparecen rarísima vez,
+salvo en palabras de origen extranjero. Además de esa desigualdad en frecuencias
+individuales, existen fuertes correlaciones entre letras consecutivas: después de una "q"
+casi siempre sigue una "u"; después de ciertos prefijos son mucho más probables ciertos
+sufijos; palabras completas se repiten una y otra vez en cualquier texto largo. Toda esa
+previsibilidad es, matemáticamente, redundancia, y es la razón por la cual el lenguaje
+escrito se puede comprimir tanto sin perder ni una palabra.
+
+Es importante no confundir dos nociones distintas de entropía cuando se habla de idiomas.
+Por un lado está la entropía de orden cero, que solo mira la frecuencia individual de
+cada símbolo del alfabeto (por ejemplo, cada una de las veintisiete letras del español,
+o cada uno de los doscientos cincuenta y seis valores de byte si se analiza el archivo
+crudo en cualquier codificación), ignorando por completo el contexto en el que aparece.
+Por otro lado está la entropía condicional, que sí tiene en cuenta qué símbolos anteriores
+predicen al símbolo siguiente, y por lo tanto captura muchísima más redundancia. Para el
+español, la entropía de orden cero sobre el alfabeto de letras suele rondar los cuatro
+bits por símbolo, mientras que estudios clásicos de entropía condicional (considerando
+varios símbolos de contexto) la ubican bastante más abajo, en el orden de uno a uno y
+medio bits por símbolo. La diferencia entre ambos números no es un error de cálculo: son
+dos preguntas distintas. La primera pregunta cuánta sorpresa promedio trae una letra si
+solo conocemos su frecuencia global; la segunda pregunta cuánta sorpresa promedio trae una
+letra si además conocemos las letras que la precedieron. Cuantas más letras de contexto se
+usan, más baja la entropía condicional estimada, porque el lenguaje natural tiene
+regularidades que se extienden por varias palabras, no solo por letras contiguas.
+
+Canal de comunicación
+
+Un canal de comunicación es el medio físico o lógico por el cual viaja un mensaje desde
+un emisor hasta un receptor. Puede ser un cable, el aire, una fibra óptica, un disco
+magnético que se lee más tarde, o incluso la memoria de una computadora entre dos
+procesos. Todo canal real está sujeto a algún tipo de ruido: interferencias
+electromagnéticas, atenuación de la señal, errores de lectura, colisiones con otras
+transmisiones. El ruido introduce incertidumbre adicional entre lo que el emisor envió y
+lo que el receptor efectivamente recibe, y es tarea de la ingeniería de comunicaciones
+diseñar esquemas que permitan recuperar el mensaje original a pesar de ese ruido.
+
+Shannon demostró un resultado sorprendente conocido como el teorema fundamental de la
+codificación de canal: para cualquier canal ruidoso existe una cantidad máxima de
+información, llamada capacidad del canal, que se puede transmitir con una probabilidad de
+error arbitrariamente baja, siempre que la tasa de transmisión no supere esa capacidad. Lo
+sorprendente no es que exista un límite (eso era intuitivo), sino que por debajo de ese
+límite es posible, en principio, transmitir con error tan cercano a cero como se quiera,
+agregando la redundancia adecuada mediante códigos de corrección de errores. Antes de este
+resultado, se pensaba que reducir la tasa de error requería necesariamente reducir la tasa
+de transmisión de manera proporcional e indefinida; Shannon mostró que existe un punto de
+equilibrio, la capacidad, por debajo del cual el error se puede hacer arbitrariamente
+pequeño sin sacrificar más y más velocidad.
+
+La capacidad de un canal depende de sus características físicas. Para un canal continuo
+con ancho de banda B (medido en hertz) y una relación señal a ruido S/N determinada, la
+fórmula de Shannon-Hartley establece que la capacidad en bits por segundo es:
+
+    C = B * log2(1 + S/N)
+
+Esta fórmula explica, entre otras cosas, por qué las conexiones de internet por cable de
+fibra óptica pueden alcanzar velocidades mucho mayores que las conexiones inalámbricas en
+entornos con interferencia: el ancho de banda disponible y la relación señal a ruido son
+mucho más favorables. También explica por qué comprimir una señal de audio o video antes
+de transmitirla resulta tan valioso: si se logra reducir la cantidad de bits necesarios
+para representar el mismo contenido, se necesita menos capacidad de canal para
+transmitirlo en el mismo tiempo, o se puede transmitir más rápido con la misma capacidad.
+
+Compresión sin pérdida
+
+La compresión de datos busca representar la misma información usando menos símbolos, o
+usando símbolos más cortos en promedio. Existen dos grandes familias: la compresión sin
+pérdida, donde el archivo original se puede reconstruir exactamente a partir del archivo
+comprimido, y la compresión con pérdida, donde se descarta información que se considera
+poco relevante para el uso previsto del archivo, a cambio de una compresión mucho mayor.
+
+La compresión sin pérdida se apoya directamente en la idea de redundancia. Si un archivo
+tiene entropía empírica de, digamos, cuatro bits por byte, en teoría se lo podría
+representar usando en promedio solo cuatro bits por cada byte original, en lugar de los
+ocho bits que ocupa cada byte sin comprimir. Ese es precisamente el límite teórico que
+impone la entropía: ningún esquema de compresión sin pérdida puede, en promedio, superar
+ese límite para una fuente dada, porque hacerlo implicaría poder reconstruir el mensaje
+original con menos información de la que realmente contiene, lo cual es imposible.
+
+Existen distintas técnicas para acercarse a ese límite. La codificación de Huffman es
+probablemente la más conocida y didáctica. Construye un código de longitud variable donde
+los símbolos más frecuentes reciben códigos más cortos y los símbolos menos frecuentes
+reciben códigos más largos, de manera tal que la longitud promedio ponderada por
+frecuencia se acerque lo más posible a la entropía de la fuente. El algoritmo construye un
+árbol binario de abajo hacia arriba: se parte de los símbolos como hojas, cada una con su
+frecuencia asociada, y se van combinando repetidamente los dos nodos de menor frecuencia
+en un nuevo nodo cuya frecuencia es la suma de ambos, hasta que queda un único nodo raíz.
+El código de cada símbolo queda determinado por el camino desde la raíz hasta su hoja,
+donde cada rama hacia la izquierda aporta un cero y cada rama hacia la derecha aporta un
+uno, o alguna convención equivalente.
+
+Una propiedad notable de los códigos de Huffman (y en general de cualquier código óptimo
+para compresión sin pérdida) es que, al comprimir bien un archivo, el archivo resultante
+tiende a tener una distribución de símbolos mucho más uniforme que el original. Esto tiene
+sentido intuitivo: si el código fuera óptimo y aun así el archivo comprimido mantuviera
+símbolos muy desiguales en frecuencia, eso significaría que todavía queda redundancia sin
+explotar, y por lo tanto el código no sería realmente óptimo. En el límite ideal, un
+archivo comprimido de manera perfectamente óptima debería tener sus símbolos de salida
+distribuidos de la forma más uniforme posible, acercando su propia entropía empírica al
+máximo teórico de su alfabeto de salida. Es la razón fundamental por la que archivos ya
+comprimidos, como los .zip, .rar, .jpg o .mp3, exhiben una entropía empírica muy cercana
+al máximo de ocho bits por byte cuando se los analiza byte a byte: ya no queda casi nada
+de redundancia estadística de orden cero para seguir explotando.
+
+Otra familia de técnicas de compresión sin pérdida se basa en encontrar repeticiones de
+secuencias completas, no solo en la frecuencia de símbolos individuales. Los algoritmos de
+la familia LZ (por Lempel y Ziv, sus creadores) recorren el archivo buscando fragmentos que
+ya aparecieron antes, y los reemplazan por una referencia corta que indica "repetí lo que
+apareció hace tantos bytes, durante tantos bytes", en lugar de repetir el fragmento
+completo. Esto es extremadamente efectivo en textos con muchas palabras y frases
+repetidas, en código fuente con patrones de sintaxis recurrentes, o en imágenes con áreas
+de color uniforme. El formato ZIP, en su variante más común, combina un algoritmo de la
+familia LZ (conocido como LZ77) con una etapa final de codificación de Huffman: primero se
+eliminan las repeticiones de secuencias largas, y después se comprime lo que queda
+aplicando códigos de longitud variable según la frecuencia de cada símbolo o referencia
+resultante. Esta combinación se conoce como DEFLATE, y es el algoritmo detrás de formatos
+tan usados como ZIP, gzip y PNG.
+
+Compresión con pérdida
+
+A diferencia de la compresión sin pérdida, la compresión con pérdida acepta descartar
+parte de la información original a cambio de una reducción de tamaño mucho mayor. La
+clave está en elegir qué información descartar de manera que la pérdida sea poco o nada
+perceptible para el uso previsto del archivo. En audio, por ejemplo, el oído humano no
+percibe con la misma sensibilidad todas las frecuencias, y ciertos sonidos quedan
+enmascarados perceptualmente cuando ocurren simultáneamente con otros sonidos más fuertes
+en frecuencias cercanas; los códecs de audio con pérdida, como el conocido formato MP3,
+aprovechan estos modelos psicoacústicos para descartar la información que el oído humano
+promedio apenas notaría que falta.
+
+En imágenes, algo similar ocurre con la percepción visual: el ojo humano es mucho más
+sensible a los cambios de luminancia (brillo) que a los cambios de crominancia (color), y
+es más sensible a los detalles de baja frecuencia espacial que a los de alta frecuencia.
+El formato JPG, por ejemplo, transforma la imagen a un espacio de color que separa
+luminancia de crominancia, submuestrea la información de color con menor resolución que la
+de brillo, aplica una transformada matemática (la transformada discreta del coseno) que
+concentra la energía de cada bloque de la imagen en pocos coeficientes, y luego cuantiza
+esos coeficientes de forma más agresiva en las frecuencias donde el ojo humano es menos
+sensible. El resultado es una pérdida de información real e irreversible, pero calibrada
+para minimizar el impacto perceptual, logrando reducciones de tamaño mucho mayores que las
+que permitiría cualquier esquema sin pérdida sobre la misma imagen.
+
+Una consecuencia práctica de todo esto es que comprimir un archivo con pérdida y después
+aplicarle compresión sin pérdida (como comprimir un .jpg dentro de un .zip) casi nunca
+logra una reducción adicional significativa: la etapa con pérdida ya eliminó gran parte de
+la redundancia perceptual, y lo que queda suele parecerse mucho, estadísticamente, a datos
+aleatorios, con una entropía empírica cercana al máximo. Por eso es común observar que
+intentar volver a comprimir un archivo .jpg, .mp3 o .zip con una herramienta de compresión
+genérica apenas reduce su tamaño, y en algunos casos incluso lo aumenta levemente, porque
+el formato contenedor agrega su propia cabecera sin ganar nada a cambio.
+
+Entropía condicional y entropía conjunta
+
+Cuando se trabaja con dos variables aleatorias relacionadas, resulta útil definir la
+entropía conjunta H(X,Y), que mide la incertidumbre total del par (X,Y) considerado como
+un solo evento combinado, y la entropía condicional H(Y|X), que mide cuánta incertidumbre
+queda en Y una vez que ya conocemos el valor de X. Estas cantidades están relacionadas por
+la regla de la cadena de la entropía:
+
+    H(X,Y) = H(X) + H(Y|X)
+
+Es decir, la incertidumbre conjunta de dos variables es igual a la incertidumbre de la
+primera, más la incertidumbre que queda en la segunda una vez conocida la primera. Esta
+regla se generaliza a secuencias de símbolos: la entropía de un mensaje completo se puede
+descomponer como la suma de la entropía del primer símbolo, más la entropía del segundo
+símbolo condicionada al primero, más la entropía del tercero condicionada a los dos
+anteriores, y así sucesivamente. Cuando existe dependencia entre símbolos consecutivos
+(como ocurre en cualquier lenguaje natural), cada término condicional resulta menor que la
+entropía marginal correspondiente, porque conocer el contexto reduce la incertidumbre
+restante. Esta es, dicho de otra manera, la formalización matemática de por qué la
+entropía condicional del lenguaje es tan inferior a su entropía de orden cero.
+
+Otra cantidad relacionada es la información mutua I(X;Y), que mide cuánta incertidumbre
+sobre una variable se reduce al conocer la otra:
+
+    I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)
+
+La información mutua es siempre mayor o igual a cero, y vale cero exactamente cuando las
+dos variables son estadísticamente independientes, es decir, cuando conocer una no aporta
+absolutamente nada sobre la otra. Este concepto es central en el análisis de canales de
+comunicación ruidosos: la capacidad del canal se puede definir, de manera más general que
+la fórmula de Shannon-Hartley para canales continuos, como el máximo de la información
+mutua entre la entrada y la salida del canal, maximizado sobre todas las distribuciones de
+probabilidad posibles de la entrada.
+
+Codificación y el teorema de codificación sin ruido
+
+El teorema de codificación sin ruido de Shannon (también llamado primer teorema de
+Shannon) establece que, para codificar los símbolos de una fuente sin memoria de manera
+unívocamente decodificable, la longitud promedio del código, medida en bits por símbolo,
+no puede ser inferior a la entropía de la fuente, y que existen códigos cuya longitud
+promedio se acerca a ese límite tanto como se quiera, si se permite codificar bloques
+suficientemente largos de símbolos en lugar de símbolos individuales. Este resultado es el
+que le da sustento teórico a algoritmos como el de Huffman: no es casualidad que Huffman
+se acerque al límite de entropía, es la manifestación práctica de un teorema general.
+
+Existen también los llamados códigos de longitud fija, donde todos los símbolos se
+representan con la misma cantidad de bits, sin importar su frecuencia. Es el enfoque más
+simple, pero claramente subóptimo cuando las frecuencias no son uniformes: si un símbolo
+aparece la mitad de las veces y todos los demás se reparten la otra mitad, tiene sentido
+darle a ese símbolo frecuente un código más corto que a los demás, para minimizar la
+longitud promedio del mensaje codificado. La codificación ASCII de siete bits por
+carácter, por ejemplo, es un código de longitud fija: usa siete bits para representar
+tanto la letra "e" (muy frecuente en textos en inglés o español) como el símbolo de
+arroba (mucho menos frecuente), desperdiciando la oportunidad de comprimir aprovechando
+esa diferencia de frecuencias.
+
+Aplicaciones prácticas
+
+Los conceptos de entropía y redundancia no son solo curiosidades matemáticas: son la base
+de tecnologías que se usan todos los días. Cada vez que se comprime un archivo en formato
+ZIP, se está explotando la redundancia estadística de su contenido. Cada vez que se
+transmite un video por streaming, se están aplicando algoritmos de compresión con pérdida
+diseñados para aprovechar las limitaciones de la percepción humana y maximizar la calidad
+percibida dentro de una capacidad de canal limitada. Cada vez que un módem, una placa de
+red o un enlace satelital agregan bits de paridad o códigos de corrección de errores más
+sofisticados, están aplicando ideas derivadas directamente del teorema de codificación de
+canal.
+
+En criptografía, la noción de entropía también juega un papel central, aunque con un
+matiz distinto: ahí interesa que los datos (por ejemplo, una clave secreta) tengan la
+mayor entropía posible, para que sean lo más impredecibles posible frente a un atacante
+que intente adivinarlos. Una contraseña predecible, con baja entropía, es fácil de
+adivinar mediante ataques de fuerza bruta o diccionario; una clave generada con alta
+entropía, cercana a la equiprobabilidad total sobre su espacio de valores posibles, es
+mucho más resistente a ese tipo de ataques, precisamente porque no deja ningún patrón
+estadístico explotable.
+
+En biología, la teoría de la información se ha usado para analizar la cantidad de
+información contenida en secuencias genéticas, estudiando cuánta redundancia existe en el
+código genético y cómo se relaciona con la capacidad de los mecanismos celulares de
+detectar y corregir errores de copia del ADN, en un paralelismo directo con los códigos de
+corrección de errores usados en comunicaciones digitales.
+
+Un ejemplo práctico: medir la entropía empírica de un archivo
+
+Una forma sencilla de poner en práctica estos conceptos es escribir un programa que lea un
+archivo cualquiera, byte por byte, cuente cuántas veces aparece cada uno de los
+doscientos cincuenta y seis valores posibles de un byte, y con esas frecuencias calcule
+la entropía empírica de orden cero, tratando cada byte como un símbolo independiente. Este
+cálculo no requiere cargar el archivo completo en memoria de una sola vez: basta con leerlo
+en bloques (por ejemplo, de un megabyte cada uno) y acumular un vector de doscientos
+cincuenta y seis contadores, uno por cada valor de byte posible. Ese recorrido es lineal en
+el tamaño del archivo y usa una cantidad de memoria constante, independiente de cuán grande
+sea el archivo analizado.
+
+Al aplicar este procedimiento sobre un archivo de texto plano en español, es esperable
+obtener una entropía empírica de orden cero en el rango de aproximadamente tres punto
+cinco a cinco bits por byte, bastante por debajo del máximo teórico de ocho bits. Esto
+refleja, tal como se explicó antes, que el texto en español usa de manera desigual el
+alfabeto de doscientos cincuenta y seis valores de byte: predominan las letras minúsculas
+comunes, el espacio en blanco, algunos signos de puntuación frecuentes, y quedan
+prácticamente ausentes muchísimos valores de byte que en un archivo binario arbitrario sí
+podrían aparecer.
+
+En cambio, al aplicar el mismo procedimiento sobre un archivo comprimido, como un .zip
+generado a partir de ese mismo texto usando un algoritmo de compresión fuerte, es
+esperable obtener una entropía empírica mucho más alta, típicamente por encima de siete
+punto nueve bits por byte, muy cerca del máximo teórico de ocho. Esto confirma
+empíricamente la idea discutida antes: un compresor eficaz deja al archivo resultante con
+una distribución de bytes casi uniforme, porque ya explotó toda la redundancia
+estadística explotable que tenía el archivo original.
+
+Comparar ambos resultados, el del texto plano y el del archivo comprimido, es una manera
+directa y concreta de verificar con datos reales una de las ideas centrales de la teoría
+de la información: la compresión sin pérdida es, en esencia, el proceso de eliminar
+redundancia estadística hasta acercar la representación de los datos a la máxima entropía
+posible para su alfabeto de salida, sin perder ni un solo bit de la información original.
+
+Índice de coincidencia y otras medidas relacionadas
+
+Además de la entropía, existen otras cantidades estadísticas que se usan para caracterizar
+un texto o una fuente de símbolos. Una de ellas, muy usada históricamente en criptoanálisis,
+es el índice de coincidencia. Se define, para un texto de longitud N sobre un alfabeto
+dado, como la probabilidad de que dos letras elegidas al azar (sin reposición) dentro de
+ese mismo texto resulten iguales. Si n_i es la cantidad de apariciones del símbolo i en el
+texto, el índice de coincidencia se calcula como:
+
+    IC = [ suma para i de n_i * (n_i - 1) ] / [ N * (N - 1) ]
+
+Para un texto en un idioma natural, donde las frecuencias de letras están lejos de ser
+uniformes, el índice de coincidencia resulta más alto que para un texto donde todas las
+letras fueran exactamente equiprobables (que tendría un índice de coincidencia cercano a
+uno dividido por la cantidad de símbolos del alfabeto). Cuanto más desigual es la
+distribución de frecuencias, mayor tiende a ser el índice de coincidencia, porque aumenta
+la probabilidad de que dos letras tomadas al azar coincidan justo en alguno de los valores
+más frecuentes. Esta medida fue históricamente muy usada para atacar cifrados por
+sustitución polialfabética, como el cifrado de Vigenère: al analizar segmentos del texto
+cifrado con distintos desplazamientos supuestos de la clave, el segmento correcto exhibe
+un índice de coincidencia cercano al del idioma original, mientras que los segmentos con
+un desplazamiento incorrecto de la clave tienden a mezclar letras de manera más uniforme,
+acercando su índice de coincidencia al de una distribución aleatoria.
+
+Existe una relación conceptual, aunque no una igualdad matemática directa, entre el índice
+de coincidencia y la entropía de orden cero de un texto: ambas cantidades capturan, desde
+ángulos distintos, cuán desigual es la distribución de frecuencias de los símbolos. Un
+texto con baja entropía (alta previsibilidad, distribución muy desigual) tiende a tener un
+índice de coincidencia relativamente alto, porque hay pocos símbolos dominantes que
+concentran la mayor parte de las apariciones, y por lo tanto es más probable que dos
+letras cualesquiera coincidan justo en uno de esos símbolos dominantes. Un texto con alta
+entropía, cercana al máximo teórico (distribución casi uniforme, como ocurre en un archivo
+fuertemente comprimido), tiende a tener un índice de coincidencia bajo, cercano al que se
+obtendría con símbolos elegidos completamente al azar y de manera uniforme sobre el
+alfabeto, precisamente porque ya no hay símbolos que dominen por sobre los demás. Es
+razonable, entonces, calcular ambas métricas sobre los mismos archivos de entrada (un
+texto plano sin comprimir y su versión comprimida) y comparar cómo se mueven juntas: se
+espera que el archivo con menor entropía (el texto plano) tenga un índice de coincidencia
+más alto que el archivo con mayor entropía (el comprimido), reforzando desde dos medidas
+distintas la misma conclusión sobre la redundancia estadística presente en cada uno.
+
+Códigos de longitud variable y el problema de la decodificación unívoca
+
+Un aspecto sutil de los códigos de longitud variable, como el de Huffman, es que deben ser
+decodificables de manera unívoca: dado un flujo de bits, el receptor tiene que poder
+reconstruir exactamente la secuencia original de símbolos, sin ambigüedad, sin necesidad
+de agregar separadores adicionales entre un código y el siguiente. Esto se logra
+construyendo códigos con la llamada propiedad de prefijo: ningún código de un símbolo
+puede ser, a la vez, el prefijo (los primeros bits) del código de otro símbolo distinto.
+Si esta propiedad se cumple, el decodificador puede leer bits uno a uno, y en cuanto la
+secuencia leída hasta el momento coincide exactamente con el código de algún símbolo, sabe
+con certeza que ese es el símbolo correcto, sin ambigüedad posible respecto de dónde
+termina un código y empieza el siguiente.
+
+La construcción del árbol de Huffman garantiza automáticamente esta propiedad de prefijo,
+porque cada símbolo del alfabeto original queda ubicado en una hoja del árbol binario, y
+ningún camino desde la raíz hasta una hoja puede ser, a la vez, el comienzo del camino
+hacia otra hoja distinta (si lo fuera, esa segunda hoja estaría "debajo" de la primera en
+el árbol, lo cual contradice que la primera ya sea una hoja). La desigualdad de Kraft
+formaliza matemáticamente qué conjuntos de longitudes de código son realizables como
+códigos de prefijo: para un alfabeto de n símbolos con longitudes de código l_1, l_2, ...,
+l_n, existe un código de prefijo con esas longitudes si y solo si la suma de dos elevado a
+la menos l_i, para todo i, es menor o igual a uno. Esta desigualdad también permite derivar
+formalmente la cota inferior de la longitud promedio de cualquier código de prefijo, que
+resulta ser exactamente la entropía de la fuente, cerrando el círculo con el teorema de
+codificación sin ruido mencionado antes.
+
+Modelos adaptativos frente a modelos estáticos
+
+Los ejemplos de Huffman descritos hasta acá corresponden a lo que se llama un esquema
+estático: primero se recorre todo el mensaje para calcular las frecuencias exactas de cada
+símbolo, se construye el árbol óptimo para esas frecuencias, y recién después se codifica
+el mensaje completo con ese árbol fijo. Esto requiere, además de transmitir el mensaje
+codificado, transmitir también una descripción del árbol (o de las frecuencias) para que
+el receptor pueda reconstruir el mismo árbol y decodificar correctamente; ese costo
+adicional se vuelve despreciable para archivos grandes, pero puede ser significativo para
+mensajes cortos.
+
+Una alternativa son los esquemas adaptativos, donde tanto el emisor como el receptor van
+actualizando su modelo de frecuencias a medida que se procesa el mensaje, símbolo por
+símbolo, sin necesidad de transmitir por separado ninguna tabla de frecuencias ni ningún
+árbol. El truco consiste en que, si ambos lados usan exactamente la misma regla de
+actualización y parten del mismo estado inicial, sus modelos se mantienen sincronizados en
+todo momento: el receptor puede reconstruir en cada paso el mismo árbol o modelo
+estadístico que usó el emisor para codificar ese símbolo, sin que haga falta comunicarlo
+explícitamente. Los algoritmos de la familia LZ77 y LZ78, y sus variantes más modernas,
+suelen combinarse con codificadores adaptativos de este tipo, y forman la base de
+formatos de uso extendido como DEFLATE (usado en ZIP, gzip y PNG), LZMA (usado en 7-Zip) y
+muchos otros.
+
+Otra técnica relevante en compresores modernos es la codificación aritmética, que
+generaliza la idea de Huffman permitiendo, en esencia, longitudes de código fraccionarias:
+en lugar de asignar a cada símbolo un número entero de bits (como hace Huffman, que
+redondea hacia arriba la longitud ideal -log2(p) a un número entero de bits), la
+codificación aritmética representa el mensaje completo como un único número dentro de un
+intervalo que se va subdividiendo progresivamente según la probabilidad de cada símbolo
+sucesivo. Esto le permite acercarse todavía más al límite teórico de la entropía que
+Huffman, especialmente cuando las probabilidades de los símbolos están muy lejos de ser
+potencias exactas de un medio, un caso en el que Huffman pierde algo de eficiencia por el
+redondeo a un número entero de bits por símbolo.
+
+Conclusión
+
+La Teoría de la Información ofrece un marco matemático riguroso para responder preguntas
+que, a primera vista, parecen puramente cualitativas: cuánto se puede comprimir un
+archivo, cuán rápido se puede transmitir información de manera confiable por un canal
+ruidoso, cuán impredecible es una fuente de datos. Detrás de tecnologías tan cotidianas
+como el streaming de video, la compresión ZIP, las conexiones de internet o el
+almacenamiento en la nube, hay decisiones de diseño que se apoyan, directa o
+indirectamente, en los conceptos de entropía, redundancia, capacidad de canal e
+información mutua que Shannon formalizó hace ya más de siete décadas. Entender estos
+conceptos, aunque sea a un nivel introductorio, ayuda a comprender por qué ciertos
+archivos se comprimen mucho y otros casi nada, por qué ciertas conexiones son más rápidas
+que otras en igualdad de condiciones físicas, y por qué el lenguaje humano, a pesar de
+parecer libre y espontáneo, está en realidad lleno de patrones estadísticos que se pueden
+medir, modelar y aprovechar.

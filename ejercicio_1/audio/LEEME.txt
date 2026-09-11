@@ -1,0 +1,12 @@
+Colocar en esta carpeta los dos archivos de audio del Ejercicio 1:
+  - un archivo .wav (PCM, sin compresión)
+  - un archivo .mp3 (comprimido)
+Ambos deben contener exactamente la misma pista de audio.
+
+Luego, desde la carpeta ejercicio_1:
+
+    python3 ejercicio_1.py --wav audio/<nombre>.wav --mp3 audio/<nombre>.mp3
+
+o de forma interactiva (el programa pide las rutas):
+
+    python3 ejercicio_1.py

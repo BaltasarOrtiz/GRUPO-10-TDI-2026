@@ -1,0 +1,21 @@
+apellido_nombre,direccion,dni,estudios_primarios,estudios_secundarios,estudios_universitarios,vivienda_propia,obra_social,trabaja,posee_vehiculo,posee_seguro_medico
+"Gómez, Martina","Av. San Martín 1450, Rosario, Santa Fe",30123456,True,True,True,True,True,True,True,True
+"Fernández, Bruno","Calle Belgrano 320, Córdoba, Córdoba",28456789,False,False,False,False,False,False,False,False
+"Rodríguez, Camila","Av. Colón 875, Mendoza, Mendoza",32567890,True,True,False,True,True,True,False,False
+"López, Agustín","Calle Mitre 210, La Plata, Buenos Aires",27890123,True,True,True,False,False,True,True,False
+"Díaz, Valentina","Av. Rivadavia 4521, Salta, Salta",35678901,True,False,False,False,True,False,False,True
+"Pérez, Tomás","Calle Sarmiento 678, Neuquén, Neuquén",29345678,True,True,True,True,False,True,True,True
+"Sánchez, Lucía","Av. Pellegrini 1200, Rosario, Santa Fe",33456789,True,True,False,False,True,False,False,False
+"Romero, Mateo","Calle Alberdi 55, Resistencia, Chaco",26789012,True,False,False,True,False,True,True,False
+"Torres, Sofía","Av. Independencia 980, Tucumán, Tucumán",31234567,True,True,True,True,True,False,False,True
+"Flores, Ignacio","Calle Urquiza 145, Paraná, Entre Ríos",24567890,True,True,False,False,False,True,False,False
+"Acosta, Catalina","Av. Libertador 3300, Jujuy, Jujuy",37890123,True,True,True,False,True,True,True,False
+"Molina, Santiago","Calle 9 de Julio 410, Santa Fe, Santa Fe",25678901,True,False,False,False,False,False,True,False
+"Suárez, Julieta","Av. Corrientes 2200, Posadas, Misiones",34567890,True,True,True,True,False,False,False,True
+"Ortiz, Nicolás","Calle Moreno 89, San Juan, San Juan",23456789,True,True,False,True,True,True,False,True
+"Silva, Renata","Av. Yrigoyen 670, Comodoro Rivadavia, Chubut",38901234,True,False,False,False,True,True,False,False
+"Cabrera, Joaquín","Calle Lavalle 560, San Luis, San Luis",22345678,True,True,True,False,False,False,True,True
+"Núñez, Abril","Av. Roca 1120, Río Cuarto, Córdoba",36789012,True,True,False,True,False,True,False,False
+"Benítez, Franco","Calle Güemes 340, Bahía Blanca, Buenos Aires",21234567,True,False,False,False,False,True,True,False
+"Herrera, Milagros","Av. San Juan 780, Formosa, Formosa",39012345,True,True,True,True,True,True,False,False
+"Vega, Emiliano","Calle Rivadavia 990, Santa Rosa, La Pampa",20123456,True,True,False,False,True,False,True,True

@@ -1,0 +1,15 @@
+================ COMPARACIÓN DE TAMAÑOS (Ejercicio 5) ================
+Archivo de longitud variable (CSV) : 2422 bytes   (121.10 bytes/persona en promedio)
+Archivo binario de longitud fija   : 1900 bytes   (95 bytes/persona, fijo)
+Ahorro del binario vs. el texto    : 522 bytes  (21.55 %)
+
+Desglose del campo de 8 booleanos (el punto central del ejercicio):
+   En texto  : hasta 8 x "False" (5 car.) + 7 comas = 47 bytes/persona en el peor caso
+   En binario: 1 byte/persona, empaquetado con operadores bitwise (|=, <<, &)
+   Ahorro solo en ese campo: ~46 bytes/persona (~46x más chico)
+
+Proyección a la misma estructura, a escala:
+   20 personas (este ejercicio) : 522 bytes de diferencia
+   1.000.000 de personas        : 24.9 MiB de diferencia
+   10.000.000 de personas       : 248.9 MiB de diferencia
+========================================================================

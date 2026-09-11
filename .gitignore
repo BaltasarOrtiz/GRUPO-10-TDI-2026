@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+
+# Apuntes teóricos de la cátedra (material con derechos, no se distribuye)
+Apuntes TDI (Fabricio Rubio).pdf

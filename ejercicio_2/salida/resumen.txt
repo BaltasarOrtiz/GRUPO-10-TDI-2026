@@ -1,0 +1,21 @@
+================ RESUMEN (Ejercicio 2) ================
+BMP : imagenes/blue.bmp
+   tamaño            : 786488 bytes (0.75 MiB)
+   formato           : 24 bits/píxel, 512x512 px, compresión BI_RGB (sin compresión)
+   símbolos distintos: 256/256
+   entropía empírica : 6.4148 bits/byte   (máximo teórico 8.0000)
+   redundancia       : 19.82 %
+JPG : imagenes/blue.jpg
+   tamaño            : 50964 bytes (0.05 MiB)
+   formato           : Baseline DCT, 512x512 px, 3 componente(s), 8 bits
+   símbolos distintos: 256/256
+   entropía empírica : 7.9529 bits/byte   (máximo teórico 8.0000)
+   redundancia       : 0.59 %
+COMPARACIÓN
+   Δentropía (JPG − BMP)      : +1.5381 bits/byte
+   factor de tamaño (BMP/JPG) : 15.43x   (razón JPG/BMP = 0.0648)
+   bytes más frecuentes BMP   : 0xFF: 15.05%, 0xFC: 5.98%, 0xF6: 3.78%, 0xB8: 3.36%, 0xFD: 3.33%
+   bytes más frecuentes JPG   : 0x00: 1.40%, 0xFF: 0.80%, 0xF8: 0.71%, 0xF0: 0.65%, 0xF1: 0.65%
+=======================================================
+Salida guardada: /home/baltasar/documents/GitHub/GRUPO-10-TDI-2026/ejercicio_2/salida/histogramas.png
+                 /home/baltasar/documents/GitHub/GRUPO-10-TDI-2026/ejercicio_2/salida/resumen.txt
