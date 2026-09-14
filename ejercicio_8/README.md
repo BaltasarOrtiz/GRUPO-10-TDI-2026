@@ -53,7 +53,7 @@ python3 ejercicio_8.py
 
 Ejecuciones de `python3 ejercicio_8.py --matriz "..."`:
 
-| Matriz `P(Y|X)` | Tipo | `C` (bits/símbolo) | `P(X=0)` óptimo |
+| Matriz `P(Y\|X)` | Tipo | `C` (bits/símbolo) | `P(X=0)` óptimo |
 |---|---|---|---|
 | `[[1,0,0,0],[0,1,0,0]]` | Determinista / sin ruido | 1.0000 | 0.50 |
 | `[[0.7,0.1,0.1,0.1],[0.1,0.7,0.1,0.1]]` | Simétrico ("uniforme") | 0.3651 | 0.50 |
