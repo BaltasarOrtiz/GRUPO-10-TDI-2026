@@ -8,13 +8,6 @@
 ```
 pip install matplotlib
 ```
-
-En Debian/Ubuntu: `sudo apt install python3-matplotlib`.
-
-Sin salida gráfica (`DISPLAY` ausente), usar `--no-show`: genera igual el PNG sin abrir la ventana.
-
-El programa **no decodifica** ni el BMP ni el JPG: el análisis es estadístico sobre los bytes del archivo. La comparación entre BMP y JPG solo vale si ambos representan la misma fotografía y dimensiones.
-
 ## Estructura de carpetas
 
 ```
