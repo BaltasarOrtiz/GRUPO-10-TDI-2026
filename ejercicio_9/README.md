@@ -60,7 +60,7 @@ Opciones:
 
 ## Resultados medidos (corrida real, servidor + cliente)
 
-Corrida real: servidor levantado con `python3 servidor_bsc.py` en background, cliente ejecutado con `python3 cliente_bsc.py --semilla-cliente 2026` contra `127.0.0.1:5555`. Salida completa, tal cual la imprime el programa:
+Ejecución real: servidor levantado con `python3 servidor_bsc.py`, cliente ejecutado con `python3 cliente_bsc.py --semilla-cliente 2026` contra `127.0.0.1:5555`. Salida completa, tal cual la imprime el programa:
 
 ```
 === Fase 1: Transmisión y BER empírico ===
@@ -102,7 +102,7 @@ Usando p = 0.060868 (BER empírico de la prueba de 1,000,000 bits, la mejor esti
 
 El BER converge de forma estable alrededor de `0.06` a medida que crece `N` (`0.060000` → `0.060400` → `0.060868`). El mensaje de texto salió alterado en 8 de 24 caracteres, incluyendo un byte de control no imprimible (`\x00`). `I(X;Y)` y `C` coincidieron prácticamente de forma exacta.
 
-## Archivos críticos y anclas
+## Archivos
 
 - `ejercicio_9/servidor_bsc.py` — código provisto por la cátedra, transcripción literal, sin cambios de lógica.
 - `ejercicio_9/cliente_bsc.py` — el entregable real. Protocolo de red (`recibir_exactamente`, `recibir_mensaje`, `enviar_mensaje`, `conectar`), Fase 1 (`generar_trama_aleatoria`, `contar_errores`, `medir_ber`, `texto_a_binario`, `binario_a_texto`), Fase 2 (`entropia`, `matriz_bsc`, `probabilidad_salida`, `entropia_condicional`, `informacion_mutua`, `capacidad_bsc`, `probabilidades_entrada`), orquestación en `main`, argumentos en `parsear_argumentos`.
