@@ -51,7 +51,7 @@ python3 ejercicio_8.py
 
 ## Resultados medidos (casos de prueba)
 
-Corridas reales de `python3 ejercicio_8.py --matriz "..."`:
+Ejecuciones de `python3 ejercicio_8.py --matriz "..."`:
 
 | Matriz `P(Y|X)` | Tipo | `C` (bits/símbolo) | `P(X=0)` óptimo |
 |---|---|---|---|
