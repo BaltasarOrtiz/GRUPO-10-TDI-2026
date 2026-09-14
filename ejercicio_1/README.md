@@ -8,8 +8,6 @@
 ```
 pip install matplotlib
 ```
-El programa **no decodifica** el MP3: el análisis es estadístico sobre los bytes del archivo. La comparación entre WAV y MP3 solo vale si ambos contienen la misma pista.
-
 ## Estructura de carpetas
 
 ```
