@@ -1,6 +1,6 @@
 # Teoría de la Información — Grupo 10
 
-Licenciatura en Ciencias de la Computación, 2026. Prácticos de máquina en Python 3, uno por carpeta. Enunciados en `Practico_TDI_Info_Canal (2) (1).pdf`, apuntes teóricos en `Apuntes TDI (Fabricio Rubio).pdf`.
+Licenciatura en Ciencias de la Computación, 2026.
 
 ## Ejercicios
 
