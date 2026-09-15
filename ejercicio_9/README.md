@@ -50,15 +50,7 @@ Opciones:
 4. Capacidad `C = 1 - H(p)`.
 5. Compara `I(X;Y)` contra `C` (margen 5-10 %).
 
-## Respuestas teóricas
-
-**Convergencia del BER (Ley de los Grandes Números).** El BER empírico de `N` bits es el promedio de `N` Bernoulli(p), así que converge a `p` cuando `N → ∞`; la varianza del estimador decrece como `p(1-p)/N`. Por eso se usa la corrida de `N=1.000.000` como mejor estimación de `p`.
-
-**Por qué el mensaje de texto se ve "roto".** Cada carácter son 8 bits; la probabilidad de que al menos uno se invierta es `1-(1-p)^8`, mayor que `p`, y un solo bit invertido ya cambia el carácter completo.
-
-**Comparación `I(X;Y)` vs. `C`.** En un BSC, `H(Y|X) = H(p)` sin importar `P(X)`, así que `I(X;Y)` se maximiza cuando `P(X)` es uniforme (`0.5/0.5`). Una trama aleatoria equiprobable tiene `P(X=0)` cercano a `0.5` para `N` grande, así que `I(X;Y)` se acerca a `C`. En la corrida registrada, con `p = 0.060868` y `P(X=0) = 0.500236`, `I(X;Y) = C = 0.669119` bits/símbolo (diferencia relativa `0.00 %`, dentro del margen). Sí se maximizó la capacidad del canal.
-
-## Resultados medidos (corrida real, servidor + cliente)
+## Resultados medidos (ejecución real, servidor + cliente)
 
 Ejecución real: servidor levantado con `python3 servidor_bsc.py`, cliente ejecutado con `python3 cliente_bsc.py --semilla-cliente 2026` contra `127.0.0.1:5555`. Salida completa, tal cual la imprime el programa:
 
