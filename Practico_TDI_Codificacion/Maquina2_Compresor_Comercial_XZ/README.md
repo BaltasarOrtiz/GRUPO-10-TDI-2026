@@ -2,7 +2,7 @@
 
 Solución externa / de mercado asignada por sorteo (Sorteo B): **xz (XZ / LZMA2), nivel 6**.
 
-**Estado:** ejecutado y documentado (ver [`../results/`](../results/) para los resultados numéricos).
+**Estado:** ejecutado y documentado (ver [`../results/`](../results/) para los resultados numéricos y [`Documento_Funcional_XZ.md`](Documento_Funcional_XZ.md) para la explicación técnica del algoritmo y el análisis comparativo completo).
 
 No corresponde implementar nada acá: se usa la herramienta oficial (CLI `xz`) y se documenta la configuración empleada.
 
@@ -43,6 +43,7 @@ $ xz -6 -k -c ../corpus_pruebas/prueba_2_texto_natural.txt | wc -c
 | Elemento | Contenido |
 |---|---|
 | `README.md` | Configuración de xz utilizada, versión, comandos exactos (este archivo) |
+| `Documento_Funcional_XZ.md` | Explicación técnica de LZMA2, análisis comparativo completo (propio vs. xz vs. gzip-6) e interpretación del Weissman Score, para la entrega y la presentación |
 
 Esta carpeta no tiene una subcarpeta `results/` propia: al comparar tres soluciones sobre el mismo corpus, los resultados del benchmark (CSV y resumen) se generan una sola vez, un nivel arriba, en [`../results/`](../results/), a partir de [`../benchmark.py`](../benchmark.py).
 
