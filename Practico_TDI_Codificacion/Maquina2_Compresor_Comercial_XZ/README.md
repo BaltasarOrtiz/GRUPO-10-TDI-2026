@@ -8,19 +8,19 @@ No corresponde implementar nada acá: se usa la herramienta oficial (CLI `xz`) y
 
 ## Objetivos
 
-- Correr `xz -6` sobre el mismo corpus de pruebas que la solución propia ([`../Maquina2_Compresor_Propio_RLE_Shannon/`](../Maquina2_Compresor_Propio_RLE_Shannon/)) y que el baseline de la cátedra (`gzip -n -6`).
+- Correr `xz -6` sobre el corpus oficial compartido en [`../corpus_pruebas/`](../corpus_pruebas/), el mismo que usan la solución propia ([`../Maquina2_Compresor_Propio_RLE_Shannon/`](../Maquina2_Compresor_Propio_RLE_Shannon/)) y el baseline de la cátedra (`gzip -n -6`).
 - Documentar la configuración exacta utilizada (versión de `xz`, flags, nivel de compresión).
 - Registrar tamaño original/comprimido, ratio, ahorro, tiempo de compresión y descompresión, throughput.
 - Calcular el Weissman Score de xz respecto de gzip-6 (tiempos en milisegundos, α = 1).
 
-## Pruebas a correr (corpus común de la cátedra)
+## Pruebas a correr (corpus común de la cátedra, en [`../corpus_pruebas/`](../corpus_pruebas/))
 
-| Prueba | Tipo | Finalidad |
+| Prueba | Archivo | Finalidad |
 |---|---|---|
-| Prueba 1 | Archivo muy pequeño | Costo de cabecera; no entra en el ranking temporal |
-| Prueba 2 | Texto natural | ≥ 1 MiB, distribución lingüística real |
-| Prueba 3 | Alta repetición | ≥ 1 MiB con patrones y rachas repetidas |
-| Prueba 4 | Baja repetición | ≥ 1 MiB, símbolos aproximadamente equiprobables |
+| Prueba 1 | `prueba_1_pequena.txt` (64 B) | Costo de cabecera; no entra en el ranking temporal |
+| Prueba 2 | `prueba_2_texto_natural.txt` (100 KiB) | Texto natural en español, distribución lingüística real |
+| Prueba 3 | `prueba_3_alta_repeticion.txt` (100 KiB) | Rachas largas y bloques repetidos |
+| Prueba 4 | `prueba_4_baja_repeticion.txt` (100 KiB) | Pseudoaleatorio, distribución aprox. uniforme, semilla 2026 |
 
 ## Estructura prevista
 

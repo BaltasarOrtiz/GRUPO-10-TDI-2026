@@ -9,7 +9,7 @@ Algoritmo asignado por sorteo (Sorteo A, alternativa 2): **Repeticiones + estad�
 - Implementar en Python un compresor y un descompresor propios, sin delegar el núcleo del algoritmo a una librería de compresión.
 - Definir qué información adicional necesita el método para descomprimir (cabecera, tabla de códigos, parámetros).
 - Demostrar recuperación exacta del archivo original byte a byte (validación SHA-256).
-- Medir y comparar contra la solución de mercado asignada ([`../Maquina2_Compresor_Comercial_XZ/`](../Maquina2_Compresor_Comercial_XZ/)) y contra el baseline de la cátedra (`gzip -n -6`).
+- Medir y comparar contra la solución de mercado asignada ([`../Maquina2_Compresor_Comercial_XZ/`](../Maquina2_Compresor_Comercial_XZ/)) y contra el baseline de la cátedra (`gzip -n -6`), corriendo sobre el corpus oficial compartido en [`../corpus_pruebas/`](../corpus_pruebas/).
 
 ## Estructura de proyecto prevista
 
