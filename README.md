@@ -2,8 +2,6 @@
 
 Licenciatura en Ciencias de la Computación, 2026.
 
-Material adicional de la cátedra: [`Apuntes TDI (Fabricio Rubio).pdf`](Apuntes%20TDI%20%28Fabricio%20Rubio%29.pdf).
-
 ## Prácticos
 
 | Práctico | Carpeta | Tema |
