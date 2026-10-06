@@ -13,7 +13,9 @@ Enunciado: [`Practico_TDI_Codificacion.pdf`](Practico_TDI_Codificacion.pdf).
 | [`Maquina2_Compresor_Comercial_XZ/`](Maquina2_Compresor_Comercial_XZ/) | Práctico de Máquina 2, apartado 2 — solución de mercado asignada por sorteo: xz (XZ/LZMA2), nivel 6 |
 | [`corpus_pruebas/`](corpus_pruebas/) | Corpus oficial de la cátedra (4 pruebas), compartido por las tres soluciones comparadas |
 | [`benchmark.py`](benchmark.py) | Corre las tres soluciones (propio, xz-6, gzip-6) sobre las 4 pruebas del corpus y escribe los resultados en [`results/`](results/) |
-| [`results/`](results/) | `benchmark_resultados.csv` y `benchmark_resumen.md` generados por `benchmark.py`; resultados compartidos por las tres soluciones (no hay una carpeta `results/` separada dentro de cada solución) |
+| [`results/`](results/) | `benchmark_resultados.csv` y `benchmark_resumen.md` generados por `benchmark.py`; resultados compartidos por las tres soluciones (no hay una carpeta `results/` separada dentro de cada solución). También `benchmark_extra_*` generados por `benchmark_extra.py` |
+| [`corpus_extra/`](corpus_extra/) | Corpus adicional del grupo (**no oficial**, 8 archivos de 1 MiB generados con semillas fijas): datos con rachas largas para ver dónde se destaca RLE + Shannon |
+| [`benchmark_extra.py`](benchmark_extra.py) | Genera `corpus_extra/` y corre las mismas tres soluciones (reutiliza `benchmark.py`); escribe `results/benchmark_extra_resultados.csv` y `results/benchmark_extra_resumen.md` |
 
 ## Práctico de Máquina 2 en resumen
 
@@ -30,5 +32,7 @@ Ambas soluciones (propia y xz) se comparan entre sí y contra el baseline sobre 
 ## Resultado del benchmark (resumen)
 
 Corriendo `python3 benchmark.py` (ver [`results/benchmark_resumen.md`](results/benchmark_resumen.md) para el detalle completo): sobre las Pruebas 2, 3 y 4 (Prueba 1 excluida del ranking temporal, según enunciado), xz-6 obtiene el mejor Weissman Score global (≈0.49 respecto de gzip-6=1.0), seguido por la solución propia RLE + Shannon (≈0.08). La solución propia comprime razonablemente cuando hay rachas explotables (R≈2.15 en alta repetición, R≈1.39 en texto natural gracias a las rachas cortas típicas del español), pero no logra competir con LZMA2/DEFLATE en texto natural o alta repetición porque el RLE solo ve repeticiones consecutivas y no coincidencias de largo alcance; en el archivo pseudoaleatorio de baja repetición ninguna de las tres soluciones gana espacio de forma significativa (R cercano a 1), como es esperable cuando la entropía de la fuente es casi máxima.
+
+**Prueba extra (no oficial):** corriendo `python3 benchmark_extra.py` sobre [`corpus_extra/`](corpus_extra/) (ver [`results/benchmark_extra_resumen.md`](results/benchmark_extra_resumen.md)), la solución propia supera a xz-6 y a gzip-6 en datos con rachas largas de largo aleatorio (señal digital de 2 niveles: R≈124 vs. 97 y 81; archivo disperso: R≈65 vs. 56 y 50; registro de estados: R≈24 vs. 20 y 18) y supera a gzip-6 en imágenes en blanco y negro (logo: R≈237 vs. 121) y en señales de sensor por escalones. Pierde en audio con silencios y en texto tabulado, donde predomina la repetición a distancia.
 
 **Fecha de entrega:** martes 6 de octubre de 2026.
