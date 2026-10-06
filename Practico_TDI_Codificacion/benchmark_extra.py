@@ -26,12 +26,21 @@ from __future__ import annotations
 
 import csv
 import math
+import os
 import random
+import shutil
 import struct
 import sys
 from pathlib import Path
 
-import benchmark
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+# En Windows, gzip viene con Git pero no está en el PATH de PowerShell/cmd.
+if shutil.which("gzip") is None and Path(r"C:\Program Files\Git\usr\bin\gzip.exe").exists():
+    os.environ["PATH"] += os.pathsep + r"C:\Program Files\Git\usr\bin"
+
+import benchmark  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 EXTRA_DIR = HERE / "corpus_extra"
@@ -186,11 +195,11 @@ def main() -> int:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     rows: list[dict] = []
+    print("Corriendo propio, xz-6 y gzip-6 sobre los 8 archivos de corpus_extra/...")
     for filename, _desc, _ejemplo, generator in EXTRA_FILES:
         data = generator()
         (EXTRA_DIR / filename).write_bytes(data)
         for algoritmo in ("propio", "xz-6", "gzip-6"):
-            print(f"Corriendo {algoritmo} sobre {filename}...")
             row = benchmark.benchmark_one(filename, algoritmo, data)
             if not row["integridad_ok"]:
                 print(f"  ADVERTENCIA: fallo de integridad SHA-256 para {algoritmo}/{filename}", file=sys.stderr)
@@ -202,7 +211,6 @@ def main() -> int:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
-    print(f"\nCSV escrito en {csv_path}")
 
     # --- resumen legible ---
     def ratio(archivo: str, algoritmo: str) -> float:
@@ -244,8 +252,23 @@ def main() -> int:
     ]
     summary_path = RESULTS_DIR / "benchmark_extra_resumen.md"
     summary_path.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Resumen escrito en {summary_path}\n")
-    print("\n".join(lines[5 : 5 + len(EXTRA_FILES) + 1]))
+    # --- tabla completa en pantalla ---
+    print(f"\n{'Archivo':<28}{'Algoritmo':<10}{'Original (B)':>13}{'Comprimido (B)':>15}{'R':>9}"
+          f"{'Ahorro %':>10}{'T comp (ms)':>13}{'T desc (ms)':>13}  SHA-256")
+    print("-" * 115)
+    for r in rows:
+        print(f"{r['archivo']:<28}{r['algoritmo']:<10}{r['tamano_original_bytes']:>13,}{r['tamano_comprimido_bytes']:>15,}"
+              f"{r['ratio_R']:>9.2f}{r['ahorro_pct_A']:>10.2f}{r['tiempo_compresion_ms']:>13.1f}"
+              f"{r['tiempo_descompresion_ms']:>13.1f}  {'OK' if r['integridad_ok'] else 'FALLÓ'}")
+        if r["algoritmo"] == "gzip-6":
+            print()
+
+    print("Resumen (R = original / comprimido):")
+    for filename, desc, _ejemplo, _gen in EXTRA_FILES:
+        rp, rx, rg = ratio(filename, "propio"), ratio(filename, "xz-6"), ratio(filename, "gzip-6")
+        print(f"  {desc:<34} propio {rp:>7.1f} | xz {rx:>7.1f} | gzip {rg:>7.1f}  -> {veredicto(rp, rx, rg)}")
+    print(f"\nIntegridad SHA-256: {sum(r['integridad_ok'] for r in rows)}/{len(rows)} OK")
+    print(f"Resultados guardados en {csv_path} y {summary_path}")
 
     if not all_ok:
         print("\nATENCIÓN: hubo fallos de integridad SHA-256.", file=sys.stderr)
